@@ -9,13 +9,15 @@ import DashBoard from "./pages/admin/DashBoard";
 import AdminAuth from "./components/admin/global/Auth";
 import AllBlogPosts from "./pages/admin/AllBlogPosts";
 import Drafts from "./pages/admin/Drafts";
+import Comments from "./pages/admin/Comments";
+import AddBlog from "./pages/admin/AddBlog";
 
 const App = () => {
   const { pathname } = useLocation();
 
   const removeNav = pathname.startsWith("/admin");
   return (
-    <div className="bg-linear-to-b from-[#D9D9FF] to-[#F8F3F9]">
+    <div className="bg-linear-to-b from-[#D9D9FF] to-[#ffffff] h-full">
       {
         !removeNav && <Navbar />
       }
@@ -26,6 +28,8 @@ const App = () => {
           <Route index element={<DashBoard />} />
           <Route path="posts" element={<AllBlogPosts />} />
           <Route path="drafts" element={<Drafts />} />
+          <Route path="comments" element={<Comments />} />
+          <Route path="write" element={<AddBlog />} />
         </Route>
       </Routes>
       {

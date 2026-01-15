@@ -16,10 +16,12 @@ import {
   Brain,
   User,
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className={`${settingsOpen} && min-w-64`}>
@@ -60,14 +62,14 @@ const SideBar = () => {
 
         {/* Menu */}
         <nav className="p-4 space-y-2 text-sm">
-          <MenuItem icon={<LayoutDashboard />} label="Dashboard" />
+          <Link to="/admin/"><MenuItem icon={<LayoutDashboard />} label="Dashboard" /></Link>
 
           <p className="text-xs text-violet-700 mt-4">Basic</p>
 
-          <MenuItem icon={<Book />} label="Blog Posts" />
-          <div className="w-fit relative">
+          <Link to="posts"><MenuItem icon={<Book />} label="Blog Posts" /></Link>
+          <Link to="write" className="w-fit relative">
             <MenuItem icon={<Plus />} label="Write Blog" />
-            <div className="bg-linear-to-b from-pink-500 to-pink-300 rounded-xl px-1.5 py-0.5 flex flex-row gap-1 items-center absolute top-1 right-0 -mt-2 -mr-15">
+            <div className="bg-linear-to-b from-pink-500 to-pink-300 rounded-xl px-1.5 py-0.5 flex flex-row gap-1 items-center absolute top-1 right-0 -mt-2">
               <Brain
                 size={11}
                 className=" text-white"
@@ -76,11 +78,11 @@ const SideBar = () => {
                 Ai Powerd
               </span>
             </div>
-          </div>
-          <MenuItem icon={<PaintBucket />} label="Drafts" />
-          <MenuItem icon={<MessageCircle />} label="Comments" />
-          <MenuItem icon={<Ticket />} label="Tickets" />
-          <MenuItem icon={<Bell />} label="Subscribers" />
+          </Link>
+          <Link to="drafts"><MenuItem icon={<PaintBucket />} label="Drafts" /></Link>
+          <Link to="comments"><MenuItem icon={<MessageCircle />} label="Comments" /></Link>
+          <Link to="tickets"><MenuItem icon={<Ticket />} label="Tickets" /></Link>
+          <Link to="subscribers"><MenuItem icon={<Bell />} label="Subscribers" /></Link>
 
           <p className="text-xs text-violet-700 mt-4">Site Settings</p>
 
@@ -119,7 +121,7 @@ const SideBar = () => {
 /* Reusable Components */
 
 const MenuItem = ({ icon, label }) => (
-  <button className="w-full flex items-center cursor-pointer hover:font-semibold hover:text-violet-600 gap-2 px-3 py-2 rounded hover:bg-violet-50 text-left">
+  <button className="w-full flex items-center cursor-pointer hover:font-semibold hover:text-violet-600 gap-2 px-3 py-2 my-2 rounded hover:bg-violet-50 text-left">
     {React.cloneElement(icon, { size: 16, className: "text-violet-700" })}
     {label}
   </button>
