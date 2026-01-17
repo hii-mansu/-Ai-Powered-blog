@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema({
     metTitle: {type: String, required: true},
     metaDescription: {type: String, required: true},
     tags: {type: [], required: true},
-    thumbbail: {type: String,},
+    image: {type: String,},
     category: {type: String, required: true},
     isLive: {type: Boolean, required: true},
 }, {timestamps: true});
