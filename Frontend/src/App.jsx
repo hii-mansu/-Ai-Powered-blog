@@ -11,9 +11,12 @@ import AllBlogPosts from "./pages/admin/AllBlogPosts";
 import Drafts from "./pages/admin/Drafts";
 import Comments from "./pages/admin/Comments";
 import AddBlog from "./pages/admin/AddBlog";
+import { useSiteContext } from "./contexts/SiteContext";
+import 'quill/dist/quill.snow.css'
 
 const App = () => {
   const { pathname } = useLocation();
+  const {token} = useSiteContext();
 
   const removeNav = pathname.startsWith("/admin");
   return (
@@ -23,8 +26,8 @@ const App = () => {
       }
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/article" element={<Article />} />
-        <Route path="/admin" element={true ? <Layout /> : <AdminAuth />}>
+        <Route path="/article/:blogId" element={<Article />} />
+        <Route path="/admin" element={token ? <Layout /> : <AdminAuth />}>
           <Route index element={<DashBoard />} />
           <Route path="posts" element={<AllBlogPosts />} />
           <Route path="drafts" element={<Drafts />} />

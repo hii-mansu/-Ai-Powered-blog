@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Tab from "./Tab";
 import SearchResults from "./SearchResults";
+import { useSiteContext } from "../../contexts/SiteContext";
 
 const Hero = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const {input, setInput} = useSiteContext();
 
   return (
     <>
@@ -44,6 +46,8 @@ const Hero = () => {
           <label className="border border-gray-400 rounded-md p-1 flex items-center w-full max-w-md">
             <input
               type="text"
+              value={input}
+              onChange={(e)=>setInput(e.target.value)}
               placeholder="type here"
               className="pl-2 flex-1 outline-none"
             />

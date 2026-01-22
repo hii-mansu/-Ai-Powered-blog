@@ -18,9 +18,9 @@ app.use(express.json());
 app.get('/', (req, res)=>{
     res.send('API is running...');
 })
-app.use('/api/admin/', routerAdmin);
-app.use('/api/blog/', routerBlog);
-app.use('/api/comment/', routerComment);
+app.use('/api/admin', routerAdmin);
+app.use('/api/blog', routerBlog);
+app.use('/api/comment', routerComment);
 
 
 const PORT = process.env.PORT || 3000;

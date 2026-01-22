@@ -12,19 +12,19 @@ export const addComment = async(req, res)=>{
             return res.status(400).json({success: false, message: 'Something missing.'});
         }
 
-        const checkblog = BLOG.findById(blog);
+        const checkblog = await BLOG.findById(blog);
 
         if(!checkblog){
             return res.status(404).json({success: false, message: 'Blog not found'});
         };
 
-        Comment.create({
+        const saveComment = await Comment.create({
             name,
             comment,
             blog
         });
 
-        await Comment.save();
+        await saveComment.save();
         return res.status(201).json({ success: true, message: 'Comment added successfully.'});
 
     } catch (error) {

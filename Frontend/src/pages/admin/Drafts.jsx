@@ -1,8 +1,11 @@
 import React from 'react'
 import { ArrowLeftIcon, Delete, DeleteIcon, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useSiteContext } from '../../contexts/SiteContext'
 
 const Drafts = () => {
+
+  const {allBlogs} = useSiteContext();
 
   const data = [
   {
@@ -59,7 +62,7 @@ const Drafts = () => {
 
         {/* Body */}
         <tbody>
-          {data.map((item, index) => (
+          {allBlogs.filter(blog=>blog.isLive!=true).map((item, index) => (
             <tr
               key={item.id}
               className="border-t border-violet-300 hover:bg-violet-50 transition"

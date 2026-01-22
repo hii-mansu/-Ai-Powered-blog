@@ -1,29 +1,31 @@
 import fs from "fs";
 import imageKit from "../config/imageKitConfig.js";
 import BLOG from "../dbModels/BLOG.js";
+import mainGemini from "../config/gemini.js";
 
 export const postBlog = async (req, res) => {
   try {
     const {
       title,
       description,
-      metTitle,
-      metaDescription,
+      seoTitle,
+      seoDescription,
       tags,
       category,
       isLive,
+      content,
     } = JSON.parse(req.body.blog);
     const image = req.file ? req.file.path : null;
 
     if (
       !title ||
       !description ||
-      !metTitle ||
-      !metaDescription ||
+      !seoTitle ||
+      !seoDescription ||
       !tags ||
       !category ||
-      isLive === undefined ||
-      image === null
+      !content ||
+      isLive === undefined 
     ) {
       return res
         .status(400)
@@ -57,8 +59,9 @@ export const postBlog = async (req, res) => {
     await BLOG.create({
       title,
       description,
-      metTitle,
-      metaDescription,
+      content,
+      seoTitle,
+      seoDescription,
       tags,
       image: finalTHumbnail || response.filePath,
       category,
@@ -69,7 +72,7 @@ export const postBlog = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Blog posted successfully" });
   } catch (error) {
-    return res.status(500).json({ message: `Error ${error.message}` });
+    return res.status(500).json({success:false, message: `Error ${error.message}` });
   }
 };
 
@@ -118,7 +121,7 @@ export const togglePublishBlog = async (req, res) => {
     }
 
     blog.isPublished = !blog.isPublished;
-    await BLOG.save();
+    await blog.save();
 
     return res
       .status(201)
@@ -147,7 +150,7 @@ export const getAllPublicBlog = async (req, res) => {
 
 export const getPublicBlogById = async (req, res) => {
   try {
-    const { blogId } = req.body;
+    const { blogId } = req.params;
 
     if (!blogId) {
       return res
@@ -155,7 +158,7 @@ export const getPublicBlogById = async (req, res) => {
         .json({ success: false, message: "Blog id missing." });
     }
 
-    const blog = BLOG.findById({id: blogId, isLive: true});
+    const blog = await BLOG.findById({ _id: blogId, isLive: true });
     if (!blog) {
       return res
         .status(400)
@@ -166,6 +169,18 @@ export const getPublicBlogById = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ success: true, message: `Error ${error.message}` });
+      .json({ success: false, message: `Error ${error.message}` });
   }
 };
+
+export const generateBlogByAi = async(req, res)=>{
+  try {
+    const {prompt} = req.body;
+    const content = await mainGemini(prompt + ' generate an blog content for ths prompt in json formate, i want ready to use json without doing any extra code , i want json info feilds like, blogTitle, blogDescription, metaTitle, metaDescription, tags, and blog content');
+    res.json({ success: true, blog: content })
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: `Error ${error.message}` });
+  }
+}

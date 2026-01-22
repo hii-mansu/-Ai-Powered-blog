@@ -6,7 +6,7 @@ const routerComment = express.Router();
 
 routerComment.post('/add', addComment);
 routerComment.patch('/status/:id',auth, toggleCommentStatus);
-routerComment.get('/onblog/:id', getCommentsByBlog);
+routerComment.get('/onblog/:blogId', getCommentsByBlog);
 routerComment.get('/all',auth, getAllComments);
 routerComment.delete('/delete/:id',auth, deleteComment);
 

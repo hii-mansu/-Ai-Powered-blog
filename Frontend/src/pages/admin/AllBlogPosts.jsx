@@ -2,32 +2,31 @@ import React from 'react'
 import { ArrowLeftIcon, Delete, DeleteIcon, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../../components/admin/global/Badge';
+import { useSiteContext } from '../../contexts/SiteContext';
+import axios from 'axios';
 
 const AllBlogPosts = () => {
 
-  const data = [
-  {
-    id: 1,
-    title: "AI in Product Design",
-    status: "Published",
-    category: "AI",
-    tags: ["AI", "Design"],
-  },
-  {
-    id: 2,
-    title: "React Performance Tips",
-    status: "Draft",
-    category: "Development",
-    tags: ["React", "Frontend"],
-  },
-  {
-    id: 3,
-    title: "Startup Growth Hacks",
-    status: "Archived",
-    category: "Business",
-    tags: ["Startup", "Growth"],
-  },
-];
+  const { allBlogs } = useSiteContext();
+
+  const isLiveToggle = async(id)=>{
+    try {
+      const {data} = await axios.patch('/api/blog/togglepublish', {id});
+      console.log(data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteToggle = async({id})=>{
+    try {
+      const {data} = await axios.delete('/api/blog/deletebyid', id);
+      console.log("Deleted");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <div className='m-7'>
@@ -44,7 +43,6 @@ const AllBlogPosts = () => {
               <h5 className='flex flex-row gap-2 items-center text-violet-600'><span className='border border-violet-200 text-xs px-2 py-0.5 rounded-lg'>99</span> Posts found</h5>
             </div>
       <table className="min-w-full text-sm">
-        {/* Header */}
         <thead className="bg-violet-50 font-normal text-violet-700/50">
           <tr>
             <th className="p-3 text-left">
@@ -58,11 +56,10 @@ const AllBlogPosts = () => {
           </tr>
         </thead>
 
-        {/* Body */}
         <tbody>
-          {data.map((item, index) => (
+          {allBlogs.map((item, index) => (
             <tr
-              key={item.id}
+              key={item._id}
               className="border-t border-violet-300 hover:bg-violet-50 transition"
             >
               <td className="p-3">
@@ -72,7 +69,7 @@ const AllBlogPosts = () => {
               <td className="p-3 font-normal text-gray-500">{item.title}</td>
 
               <td className="p-3">
-                <Badge type={item.status} />
+                <Badge type={item.isLive} />
               </td>
 
               <td className="p-3 font-normal text-gray-500">{item.category}</td>
@@ -94,10 +91,10 @@ const AllBlogPosts = () => {
               </td>
 
               <td className="p-3 space-x-2">
-                <button className="text-violet-600 hover:underline">
+                <button onClick={()=> isLiveToggle(item._id)} className="text-violet-600 hover:underline">
                   <Eye size={16} />
                 </button>
-                <button className="text-red-600 hover:underline">
+                <button onClick={deleteToggle} className="text-red-600 hover:underline">
                   <DeleteIcon size={16} />
                 </button>
               </td>
