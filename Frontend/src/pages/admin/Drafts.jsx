@@ -2,34 +2,30 @@ import React from 'react'
 import { ArrowLeftIcon, Delete, DeleteIcon, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useSiteContext } from '../../contexts/SiteContext'
+import axios from 'axios'
 
 const Drafts = () => {
 
   const {allBlogs} = useSiteContext();
 
-  const data = [
-  {
-    id: 1,
-    title: "AI in Product Design",
-    status: "Published",
-    category: "AI",
-    tags: ["AI", "Design"],
-  },
-  {
-    id: 2,
-    title: "React Performance Tips",
-    status: "Draft",
-    category: "Development",
-    tags: ["React", "Frontend"],
-  },
-  {
-    id: 3,
-    title: "Startup Growth Hacks",
-    status: "Archived",
-    category: "Business",
-    tags: ["Startup", "Growth"],
-  },
-];
+  const isLiveToggle = async(id)=>{
+    console.log(id);
+    try {
+      const {data} = await axios.patch(`/api/blog/togglepublish`, {id});
+      console.log(data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteToggle = async(id)=>{
+      try {
+        const {data} = await axios.delete(`/api/blog/deletebyid/${id}`);
+        console.log("Deleted");
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
   return (
     <div className='m-7'>
@@ -96,10 +92,10 @@ const Drafts = () => {
               </td>
 
               <td className="p-3 space-x-2">
-                <button className="text-violet-600 hover:underline">
+                <button onClick={()=>isLiveToggle(item._id)} className="text-violet-600 hover:underline">
                   <Eye size={16} />
                 </button>
-                <button className="text-red-600 hover:underline">
+                <button onClick={()=>deleteToggle(item._id)} className="text-red-600 hover:underline">
                   <DeleteIcon size={16} />
                 </button>
               </td>

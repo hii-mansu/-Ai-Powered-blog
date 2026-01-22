@@ -7,7 +7,7 @@ const routerBlog = express.Router();
 routerBlog.post('/write', uploadFile.single('image'),auth, postBlog);
 routerBlog.post('/write/ai', auth, generateBlogByAi);
 routerBlog.patch('/togglepublish', auth, togglePublishBlog);
-routerBlog.delete('/deletebyid', auth, deleteBlogById);
+routerBlog.delete('/deletebyid/:id', auth, deleteBlogById);
 routerBlog.get('/allblogs', getAllPublicBlog);
 routerBlog.get('/blogbyid/:blogId', getPublicBlogById);
 

@@ -10,17 +10,18 @@ const AllBlogPosts = () => {
   const { allBlogs } = useSiteContext();
 
   const isLiveToggle = async(id)=>{
+    console.log(id);
     try {
-      const {data} = await axios.patch('/api/blog/togglepublish', {id});
+      const {data} = await axios.patch(`/api/blog/togglepublish`, {id});
       console.log(data);
     } catch (error) {
       console.log(error)
     }
   }
 
-  const deleteToggle = async({id})=>{
+  const deleteToggle = async(id)=>{
     try {
-      const {data} = await axios.delete('/api/blog/deletebyid', id);
+      const {data} = await axios.delete(`/api/blog/deletebyid/${id}`);
       console.log("Deleted");
     } catch (error) {
       console.log(error);
@@ -94,7 +95,7 @@ const AllBlogPosts = () => {
                 <button onClick={()=> isLiveToggle(item._id)} className="text-violet-600 hover:underline">
                   <Eye size={16} />
                 </button>
-                <button onClick={deleteToggle} className="text-red-600 hover:underline">
+                <button onClick={()=>deleteToggle(item._id)} className="text-red-600 hover:underline">
                   <DeleteIcon size={16} />
                 </button>
               </td>

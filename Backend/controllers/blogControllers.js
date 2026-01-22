@@ -25,7 +25,7 @@ export const postBlog = async (req, res) => {
       !tags ||
       !category ||
       !content ||
-      isLive === undefined 
+      isLive === undefined
     ) {
       return res
         .status(400)
@@ -72,13 +72,15 @@ export const postBlog = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Blog posted successfully" });
   } catch (error) {
-    return res.status(500).json({success:false, message: `Error ${error.message}` });
+    return res
+      .status(500)
+      .json({ success: false, message: `Error ${error.message}` });
   }
 };
 
 export const deleteBlogById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
       return res
@@ -86,14 +88,12 @@ export const deleteBlogById = async (req, res) => {
         .json({ success: false, message: "Blog id missing." });
     }
 
-    const deletedBlog = await BLOG.findByIdAndDelete(id);
+    const deletedBlog = await BLOG.findByIdAndDelete({_id:id});
     if (!deletedBlog) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Blog not found or error in deletion.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Blog not found or error in deletion.",
+      });
     }
     return res.status(201).json({ success: true, message: "Blog deleted." });
   } catch (error) {
@@ -113,15 +113,14 @@ export const togglePublishBlog = async (req, res) => {
         .json({ success: false, message: "Blog id missing." });
     }
 
-    const blog = await BLOG.findById(id);
+    const blog = await BLOG.findById({ _id: id });
     if (!blog) {
       return res
         .status(400)
         .json({ success: false, message: "Blog not found" });
     }
 
-    blog.isPublished = !blog.isPublished;
-    await blog.save();
+    await BLOG.findByIdAndUpdate(id, { isLive: !blog.isLive });
 
     return res
       .status(201)
@@ -135,9 +134,11 @@ export const togglePublishBlog = async (req, res) => {
 
 export const getAllPublicBlog = async (req, res) => {
   try {
-    const blogs = await BLOG.find({isLive: true});
+    const blogs = await BLOG.find({ isLive: true });
     if (blogs.length < 0) {
-      return res.status(400).json({ success: false, message: "No blogs found." });
+      return res
+        .status(400)
+        .json({ success: false, message: "No blogs found." });
     }
 
     return res.status(201).json({ success: true, blogs });
@@ -173,14 +174,17 @@ export const getPublicBlogById = async (req, res) => {
   }
 };
 
-export const generateBlogByAi = async(req, res)=>{
+export const generateBlogByAi = async (req, res) => {
   try {
-    const {prompt} = req.body;
-    const content = await mainGemini(prompt + ' generate an blog content for ths prompt in json formate, i want ready to use json without doing any extra code , i want json info feilds like, blogTitle, blogDescription, metaTitle, metaDescription, tags, and blog content');
-    res.json({ success: true, blog: content })
+    const { prompt } = req.body;
+    const content = await mainGemini(
+      prompt +
+        " generate an blog content for ths prompt in json formate, i want ready to use json without doing any extra code , i want json info feilds like, blogTitle, blogDescription, metaTitle, metaDescription, tags, and blog content",
+    );
+    res.json({ success: true, blog: content });
   } catch (error) {
     return res
       .status(500)
       .json({ success: false, message: `Error ${error.message}` });
   }
-}
+};
