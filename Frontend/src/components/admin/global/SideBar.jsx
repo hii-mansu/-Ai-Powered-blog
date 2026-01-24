@@ -15,6 +15,9 @@ import {
   PaintBucket,
   Brain,
   User,
+  Code,
+  ToolCase,
+  BookLock,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -86,9 +89,11 @@ const SideBar = () => {
 
           <p className="text-xs text-violet-700 mt-4">Site Settings</p>
 
-          <MenuItem icon={<Info />} label="Site Info" />
-          <MenuItem icon={<Globe />} label="Site Meta" />
-          <MenuItem icon={<BotIcon />} label="AI Configurations" />
+          <Link to="site-info"><MenuItem icon={<Info />} label="Site Info" /></Link>
+          <Link to="ui-details"><MenuItem icon={<BookLock />} label="UI Details" /></Link>
+          <Link to="site-meta"><MenuItem icon={<Globe />} label="Site Meta" /></Link>
+          <Link to="tools"><MenuItem icon={<ToolCase />} label="Tools" /></Link>
+          <Link to="scripts"><MenuItem icon={<Code />} label="Custom Scripts" /></Link>
 
           {/* Sub Menu 
           <button

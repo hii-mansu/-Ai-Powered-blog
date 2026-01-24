@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import BLOG from "../dbModels/BLOG.js";
+import SITESETTINGS from "../dbModels/SiteSettings.js";
 
 export const adminAuth = async (req, res) => {
   try {
@@ -65,3 +66,16 @@ export const getBlogById = async (req, res) => {
   }
 };
 
+
+export const getSiteAllSettibgs = async (req, res) => {
+  try {
+
+    const SiAdminInfo = await SITESETTINGS.find();
+
+    return res.status(201).json({ success: true, SiAdminInfo });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: true, message: `Error ${error.message}` });
+  }
+};
