@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import routerComment from './routes/commentRoutes.js';
 import routerBlog from './routes/blogRoutes.js';
 import routerAdmin from './routes/adminRoutes.js';
+import initSiteSettings from './config/initSiteSettings.js';
 
 
 const app = express();
@@ -24,6 +25,8 @@ app.use('/api/comment', routerComment);
 
 
 const PORT = process.env.PORT || 3000;
+
+  await initSiteSettings();
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
