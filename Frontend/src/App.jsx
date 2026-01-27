@@ -22,7 +22,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   const { pathname } = useLocation();
-  const {token} = useSiteContext();
+  const {role, authLoading} = useSiteContext();
   const queryClient = new QueryClient();
 
   const removeNav = pathname.startsWith("/admin");
@@ -35,7 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/article/:blogId" element={<Article />} />
-        <Route path="/admin" element={token ? <Layout /> : <AdminAuth />}>
+        <Route path="/admin" element={!authLoading && role==="Admin" ? <Layout /> : <AdminAuth />}>
           <Route index element={<DashBoard />} />
           <Route path="posts" element={<AllBlogPosts />} />
           <Route path="drafts" element={<Drafts />} />

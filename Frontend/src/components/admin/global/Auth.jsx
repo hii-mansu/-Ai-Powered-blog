@@ -7,26 +7,29 @@ export default function AdminAuth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setToken } = useSiteContext();
+  const { setToken, setRole } = useSiteContext();
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if(!email || !password){
-        return console.log("All feilds are required.");
+    if (!email || !password) {
+      return console.log("All feilds are required.");
     }
     try {
-        const {data} = await axios.post('/api/admin/auth',{
-            email,
-            password
-        });
-        if(data.success){ 
-            setToken(data.token);
-            localStorage.setItem('token',data.token);
-            axios.defaults.headers.common['Authorization'] = `${data.token}`;
-            console.log("LoggedIn");
-        }
+      const { data } = await axios.post("/api/admin/auth", {
+        email,
+        password,
+      });
+      if (data.success) {
+        setToken(data.token);
+        setRole(data.role);
+        localStorage.setItem("token", data.token);
+        axios.defaults.headers.common["Authorization"] = `${data.token}`;
+        console.log("LoggedIn");
+      }
     } catch (error) {
-        console.log(error.message)
+      localStorage.removeItem("token");
+      setRole("");
+      console.log(error);
     }
   };
 
@@ -41,7 +44,6 @@ export default function AdminAuth() {
         <input
           placeholder="Email id"
           className="h-full w-full bg-transparent text-sm placeholder-gray-400 outline-none"
-          required="true"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
@@ -52,7 +54,6 @@ export default function AdminAuth() {
         <input
           placeholder="Password"
           className="h-full w-full bg-transparent text-sm placeholder-gray-400 outline-none"
-          required="true"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"

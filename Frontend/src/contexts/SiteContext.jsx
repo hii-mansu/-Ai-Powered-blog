@@ -12,23 +12,16 @@ const SiteContext = createContext();
 export const SiteProvider = ({ children }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [role, setRole] = useState("");
   const [allBlogs, setAllBlogs] = useState([]);
   const [allPubBlogs, setAllPubBlogs] = useState([]);
   const [input, setInput] = useState("");
-
-  const fetchAllBlogs = async () => {
-    try {
-      const { data } = await axios.get("/api/admin/allblogs");
-      setAllBlogs(data.blogs);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const [authLoading, setAuthLoading] = useState(false);
 
   const fetchAllPublicBlog = async () => {
     try {
       const { data } = await axios.get("/api/blog/allblogs");
-      if(data.success){
+      if (data.success) {
         setAllPubBlogs(data.blogs);
         console.log(data.blogs);
       }
@@ -37,16 +30,33 @@ export const SiteProvider = ({ children }) => {
     }
   };
 
+  const verifyToken = async () => {
+    try {
+      const { data } = await axios.get("/api/admin/verify");
+      if (data.role !== "Admin") {
+        setRole("");
+        localStorage.removeItem("token");
+      }
+      localStorage.setItem("token", data.token);
+      setRole(data.role);
+    } catch (error) {
+      console.log(error);
+      setRole("");
+      localStorage.removeItem("token");
+    }
+  };
+
   useEffect(() => {
     fetchAllPublicBlog();
   }, []);
 
-  if (localStorage.getItem("token")) {
-    useEffect(() => {
-      axios.defaults.headers.common["Authorization"] = `${localStorage.getItem('token')}`;
-      fetchAllBlogs();
-    }, [localStorage.getItem("token")]);
-  }
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      axios.defaults.headers.common["Authorization"] =
+        `${localStorage.getItem("token")}`;
+      verifyToken();
+    }
+  }, []);
 
   const value = {
     axios,
@@ -56,8 +66,12 @@ export const SiteProvider = ({ children }) => {
     setAllBlogs,
     allPubBlogs,
     setAllPubBlogs,
+    authLoading,
+    setAuthLoading,
     input,
     setInput,
+    role,
+    setRole,
   };
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;
