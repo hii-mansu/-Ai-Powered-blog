@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://apis.mansusingh.in/blog/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
