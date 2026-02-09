@@ -48,15 +48,14 @@ export const SiteProvider = ({ children }) => {
 
   useEffect(() => {
     fetchAllPublicBlog();
-  }, []);
 
-  useEffect(() => {
     if (localStorage.getItem("token")) {
       axios.defaults.headers.common["Authorization"] =
         `${localStorage.getItem("token")}`;
       verifyToken();
     }
   }, []);
+
 
   const value = {
     axios,

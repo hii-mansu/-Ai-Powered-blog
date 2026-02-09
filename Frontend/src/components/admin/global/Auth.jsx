@@ -19,6 +19,7 @@ export default function AdminAuth() {
         email,
         password,
       });
+      console.log(data)
       if (data.success) {
         setToken(data.token);
         setRole(data.role);
