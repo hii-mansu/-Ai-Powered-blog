@@ -21,7 +21,7 @@ const AllBlogPosts = () => {
   const isLiveToggle = async(id)=>{
     console.log(id);
     try {
-      const {data} = await axios.patch(`/api/blog/togglepublish`, {id});
+      const {data} = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/blog/togglepublish`, {id});
       console.log(data);
     } catch (error) {
       console.log(error)
@@ -30,7 +30,7 @@ const AllBlogPosts = () => {
 
   const deleteToggle = async(id)=>{
     try {
-      const {data} = await axios.delete(`/api/blog/deletebyid/${id}`);
+      const {data} = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/blog/deletebyid/${id}`);
       console.log("Deleted");
     } catch (error) {
       console.log(error);

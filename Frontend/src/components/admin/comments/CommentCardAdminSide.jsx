@@ -6,7 +6,7 @@ const CommentCardAdminSide = ({comment}) => {
 
     const isApprovedToggle = async()=>{
         try {
-            const {data} = await axios.patch(`/api/comment/status/${comment._id}`);
+            const {data} = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/comment/status/${comment._id}`);
             if(data.success){
                 console.log("Updated.")
             }
@@ -17,7 +17,7 @@ const CommentCardAdminSide = ({comment}) => {
 
     const deleteComment = async()=>{
         try {
-            const {data} = await axios.delete(`/api/comment/delete/${comment._id}`);
+            const {data} = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/comment/delete/${comment._id}`);
             if(data.success){
                 console.log('Deleted successfully.')
             }

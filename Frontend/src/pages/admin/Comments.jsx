@@ -15,7 +15,7 @@ const Comments = () => {
 
   const fetchAllComments = async () => {
     try {
-      const { data } = await axios.get("/api/comment/all");
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/comment/all`);
       setComments(data.comments);
     } catch (error) {
       console.log(error);
