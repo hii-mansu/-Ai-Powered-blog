@@ -15,7 +15,7 @@ export default function AdminAuth() {
       return console.log("All feilds are required.");
     }
     try {
-      const { data } = await axios.post("/api/admin/auth", {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/auth`, {
         email,
         password,
       });

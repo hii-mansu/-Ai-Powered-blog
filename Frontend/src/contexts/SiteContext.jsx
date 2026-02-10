@@ -6,7 +6,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 
+<<<<<<< HEAD
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || "http://apis.mansusingh.in/blog";
+=======
+//axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || "http://apis.mansusingh.in/blog";
+>>>>>>> main
 
 
 const SiteContext = createContext();
@@ -22,7 +26,7 @@ export const SiteProvider = ({ children }) => {
 
   const fetchAllPublicBlog = async () => {
     try {
-      const { data } = await axios.get("/api/blog/allblogs");
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/blog/allblogs`);
       if (data.success) {
         setAllPubBlogs(data.blogs);
         console.log(data.blogs);
@@ -34,7 +38,7 @@ export const SiteProvider = ({ children }) => {
 
   const verifyToken = async () => {
     try {
-      const { data } = await axios.get("/api/admin/verify");
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/admin/verify`);
       if (data.role !== "Admin") {
         setRole("");
         localStorage.removeItem("token");
