@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { Image as ImageIcon, Save } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { siteinfoForAdmin } from "../../../tanstackQuery/siteInfoForAdmin.js";
+import { useSiteSettings } from "../../../hooks/useBlog";
 
 export default function UiDetails() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["siteinfoForAdmin"],
-    queryFn: siteinfoForAdmin,
-  });
+  const { data, isLoading, error } = useSiteSettings();
 
   if (error) return console.log(error);
   console.log(data);

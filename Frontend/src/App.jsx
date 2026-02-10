@@ -19,6 +19,7 @@ import SiteMeta from "./pages/admin/siteSettingPages/SiteMeta";
 import IntegrationsAndTools from "./pages/admin/siteSettingPages/IntegrationsAndTools";
 import CustomScripts from "./pages/admin/siteSettingPages/Scripts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Blogs from "./pages/Blogs";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -34,6 +35,7 @@ const App = () => {
       }
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/posts" element={<Blogs />} />
         <Route path="/article/:blogId" element={<Article />} />
         <Route path="/admin" element={!authLoading && role==="Admin" ? <Layout /> : <AdminAuth />}>
           <Route index element={<DashBoard />} />

@@ -4,16 +4,13 @@ import { Link } from 'react-router-dom'
 import Badge from '../../components/admin/global/Badge';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { allBlogsForAdmin } from '../../tanstackQuery/allBlogsForAdmin.js';
+import { useAllBlogs } from '../../hooks/useBlog.js';
 
 const AllBlogPosts = () => {
 
 
-    const { data, isLoading, error } = useQuery({
-    queryKey: ["allBlogsForAdmin"],
-    queryFn: allBlogsForAdmin,
-    refetchOnWindowFocus: false,
-  });
+
+  const { data, isLoading, error } = useAllBlogs();
 
   console.log(data);
   if (error) return console.log(error);

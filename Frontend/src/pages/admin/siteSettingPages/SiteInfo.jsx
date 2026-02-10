@@ -8,14 +8,10 @@ import {
   Image as ImageIcon,
   Save,
 } from "lucide-react";
-import { siteinfoForAdmin } from "../../../tanstackQuery/siteInfoForAdmin.js";
-import { useQuery } from "@tanstack/react-query";
+import { useSiteSettings } from "../../../hooks/useBlog.js";
 
 export default function SiteInfo() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["siteinfoForAdmin"],
-    queryFn: siteinfoForAdmin,
-  });
+  const { data, isLoading, error } = useSiteSettings();
 
   if (error) return console.log(error);
 
