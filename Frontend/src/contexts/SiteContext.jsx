@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || "/";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || "http://apis.mansusingh.in/blog";
 
 
 const SiteContext = createContext();
