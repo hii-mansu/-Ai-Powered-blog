@@ -2,17 +2,26 @@ import React from 'react'
 import { ArrowLeftIcon, Delete, DeleteIcon, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../../components/admin/global/Badge';
-import { useSiteContext } from '../../contexts/SiteContext';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { allBlogsForAdmin } from '../../tanstackQuery/allBlogsForAdmin.js';
 
 const AllBlogPosts = () => {
 
-  const { allBlogs } = useSiteContext();
+
+    const { data, isLoading, error } = useQuery({
+    queryKey: ["allBlogsForAdmin"],
+    queryFn: allBlogsForAdmin,
+    refetchOnWindowFocus: false,
+  });
+
+  console.log(data);
+  if (error) return console.log(error);
 
   const isLiveToggle = async(id)=>{
     console.log(id);
     try {
-      const {data} = await axios.patch(`/api/blog/togglepublish`, {id});
+      const {data} = await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/blog/togglepublish`, {id});
       console.log(data);
     } catch (error) {
       console.log(error)
@@ -21,7 +30,7 @@ const AllBlogPosts = () => {
 
   const deleteToggle = async(id)=>{
     try {
-      const {data} = await axios.delete(`/api/blog/deletebyid/${id}`);
+      const {data} = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/blog/deletebyid/${id}`);
       console.log("Deleted");
     } catch (error) {
       console.log(error);
@@ -58,7 +67,7 @@ const AllBlogPosts = () => {
         </thead>
 
         <tbody>
-          {allBlogs.map((item, index) => (
+          {isLoading ? <p>Loading......</p> : (data?.blogs?.map((item, index) => (
             <tr
               key={item._id}
               className="border-t border-violet-300 hover:bg-violet-50 transition"
@@ -100,7 +109,7 @@ const AllBlogPosts = () => {
                 </button>
               </td>
             </tr>
-          ))}
+          )))}
         </tbody>
       </table>
     </div>

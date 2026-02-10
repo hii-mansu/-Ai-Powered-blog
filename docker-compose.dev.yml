@@ -1,0 +1,32 @@
+services:
+  aiblogbackend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: aiblogbackend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - mansuprojects
+
+  aiblogfrontend:
+    build:
+      context: ./Frontend
+      args:
+        VITE_BASE_URL: http://aiblogbackend:5000
+      dockerfile: Dockerfile
+    container_name: aiblogfrontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_BASE_URL=http://aiblogbackend:5000
+    depends_on:
+      - aiblogbackend
+    networks:
+      - mansuprojects
+
+networks:
+  mansuprojects:
+    driver: bridge

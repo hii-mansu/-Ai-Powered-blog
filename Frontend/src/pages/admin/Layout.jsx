@@ -6,7 +6,11 @@ import axios from 'axios'
 
 const Layout = () => {
 
+<<<<<<< HEAD
   const fetchSiteAdminSettings = async()=>{
+=======
+/*  const fetchSiteAdminSettings = async()=>{
+>>>>>>> main
     try {
       const {data} = await axios.get("/api/admin/siteadminsettings");
       console.log(data);
@@ -17,7 +21,11 @@ const Layout = () => {
 
   useEffect(()=>{
     fetchSiteAdminSettings();
+<<<<<<< HEAD
   },[]);
+=======
+  },[]);*/
+>>>>>>> main
 
   return (
     <div className='w-full h-screen md:flex md:flex-row'>

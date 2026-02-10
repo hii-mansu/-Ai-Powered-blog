@@ -18,21 +18,27 @@ import UiDetails from "./pages/admin/siteSettingPages/UiDetails";
 import SiteMeta from "./pages/admin/siteSettingPages/SiteMeta";
 import IntegrationsAndTools from "./pages/admin/siteSettingPages/IntegrationsAndTools";
 import CustomScripts from "./pages/admin/siteSettingPages/Scripts";
+<<<<<<< HEAD
+=======
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+>>>>>>> main
 
 const App = () => {
   const { pathname } = useLocation();
-  const {token} = useSiteContext();
+  const {role, authLoading} = useSiteContext();
+  const queryClient = new QueryClient();
 
   const removeNav = pathname.startsWith("/admin");
   return (
-    <div className="bg-linear-to-b from-[#D9D9FF] to-[#ffffff] h-full">
+    <QueryClientProvider client={queryClient}>
+      <div className="bg-linear-to-b from-[#D9D9FF] to-[#ffffff] h-full">
       {
         !removeNav && <Navbar />
       }
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/article/:blogId" element={<Article />} />
-        <Route path="/admin" element={token ? <Layout /> : <AdminAuth />}>
+        <Route path="/admin" element={!authLoading && role==="Admin" ? <Layout /> : <AdminAuth />}>
           <Route index element={<DashBoard />} />
           <Route path="posts" element={<AllBlogPosts />} />
           <Route path="drafts" element={<Drafts />} />
@@ -51,6 +57,8 @@ const App = () => {
         !removeNav && <Footer />
       }
     </div>
+    </QueryClientProvider>
+    
   );
 };
 

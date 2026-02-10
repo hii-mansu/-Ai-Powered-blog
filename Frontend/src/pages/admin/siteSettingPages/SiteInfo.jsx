@@ -1,18 +1,62 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { Facebook, Instagram, Youtube, Twitter, Mail, Image as ImageIcon, Save } from "lucide-react";
 
 export default function SiteInfo() {
+=======
+import { useEffect, useState } from "react";
+import {
+  Facebook,
+  Instagram,
+  Youtube,
+  Twitter,
+  Mail,
+  Image as ImageIcon,
+  Save,
+} from "lucide-react";
+import { siteinfoForAdmin } from "../../../tanstackQuery/siteInfoForAdmin.js";
+import { useQuery } from "@tanstack/react-query";
+
+export default function SiteInfo() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["siteinfoForAdmin"],
+    queryFn: siteinfoForAdmin,
+  });
+
+  if (error) return console.log(error);
+
+>>>>>>> main
   const [form, setForm] = useState({
     siteName: "",
     tagline: "",
     logo: null,
     facebook: "",
+<<<<<<< HEAD
     instagram: "",
+=======
+    instagram: ""[0],
+>>>>>>> main
     youtube: "",
     twitter: "",
     email: "",
   });
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+  if (data?.SiAdminInfo) {
+    setForm({
+      siteName: data.SiAdminInfo[0].siteName || "",
+      tagline: data.SiAdminInfo[0].tagline || "",
+      facebook: data.SiAdminInfo[0].facebook || "",
+      instagram: data.SiAdminInfo[0].instagram || "",
+      youtube: data.SiAdminInfo[0].youtube || "",
+      twitter: data.SiAdminInfo[0].twitter || "",
+    });
+  }
+}, [data]);
+
+>>>>>>> main
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -30,7 +74,13 @@ export default function SiteInfo() {
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto">
       <div className="bg-white rounded-2xl p-6 md:p-8 border border-violet-300">
+<<<<<<< HEAD
         <h2 className="text-2xl font-semibold text-violet-600 mb-6">Site Information</h2>
+=======
+        <h2 className="text-2xl font-semibold text-violet-600 mb-6">
+          Site Information
+        </h2>
+>>>>>>> main
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid md:grid-cols-2 gap-6">
@@ -62,10 +112,26 @@ export default function SiteInfo() {
             <div className="flex items-center gap-4 flex-wrap">
               <label className="flex items-center gap-2 px-4 py-2 border border-violet-300 rounded-xl cursor-pointer hover:bg-violet-50 text-sm">
                 <ImageIcon className="w-4 h-4 text-violet-600" /> Upload Logo
+<<<<<<< HEAD
                 <input type="file" accept="image/*" hidden onChange={handleLogoChange} />
               </label>
               {form.logo && (
                 <img src={form.logo} alt="Logo Preview" className="h-14 w-14 object-contain rounded-lg border border-violet-300 p-1" />
+=======
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleLogoChange}
+                />
+              </label>
+              {form.logo && (
+                <img
+                  src={form.logo}
+                  alt="Logo Preview"
+                  className="h-14 w-14 object-contain rounded-lg border border-violet-300 p-1"
+                />
+>>>>>>> main
               )}
             </div>
           </div>
@@ -73,8 +139,21 @@ export default function SiteInfo() {
           <div className="grid md:grid-cols-2 gap-6">
             {[
               { name: "facebook", Icon: Facebook, placeholder: "Facebook URL" },
+<<<<<<< HEAD
               { name: "instagram", Icon: Instagram, placeholder: "Instagram URL" },
               { name: "youtube", Icon: Youtube, placeholder: "YouTube Channel URL" },
+=======
+              {
+                name: "instagram",
+                Icon: Instagram,
+                placeholder: "Instagram URL",
+              },
+              {
+                name: "youtube",
+                Icon: Youtube,
+                placeholder: "YouTube Channel URL",
+              },
+>>>>>>> main
               { name: "twitter", Icon: Twitter, placeholder: "Twitter URL" },
             ].map(({ name, Icon, placeholder }) => (
               <div key={name} className="space-y-2">

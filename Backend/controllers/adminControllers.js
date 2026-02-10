@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 import BLOG from "../dbModels/BLOG.js";
 import SITESETTINGS from "../dbModels/SiteSettings.js";
+<<<<<<< HEAD
+=======
+import User from "../dbModels/User.js";
+>>>>>>> main
 
 export const adminAuth = async (req, res) => {
   try {
@@ -10,23 +14,47 @@ export const adminAuth = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Please provide all credentials" });
+    };
+
+    const userCheck = await User.findOne({email:email});
+    console.log(userCheck);
+    if(!userCheck || userCheck.role !=='Admin' || password !== process.env.ADMINPASSWORD){
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized or invalid details." });
     }
 
-    if (
+    /*if (
       email !== process.env.ADMINEMAIL ||
       password !== process.env.ADMINPASSWORD
     ) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
-    }
+    }*/
 
     const token = await jwt.sign({ email }, process.env.JWTKEY);
-    res.json({ success: true, token });
+    return res.json({ success: true, token, role: userCheck.role });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const adminCheck = async (req, res)=>{
+  try {
+
+
+    const adminInfo = await User.findOne({role:"Admin"});
+
+    const token = await jwt.sign({ email:adminInfo.email }, process.env.JWTKEY);
+    res.json({ success: true, token, role: userCheck.role });
+
+    return res.status(200).json({success:true, })
+  } catch (error) {
+    res.json({ success: false, message:"Error in auth." });
+
+  }
+}
 
 export const getAllBlog = async (req, res) => {
   try {

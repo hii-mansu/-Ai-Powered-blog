@@ -1,7 +1,26 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { Save, Search, BarChart3, ShieldCheck } from "lucide-react";
 
 export default function SiteMeta() {
+=======
+import { useEffect, useState } from "react";
+import { Save, Search, BarChart3, ShieldCheck } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { siteinfoForAdmin } from "../../../tanstackQuery/siteInfoForAdmin.js";
+
+export default function SiteMeta() {
+
+    const { data, isLoading, error } = useQuery({
+      queryKey: ["siteinfoForAdmin"],
+      queryFn: siteinfoForAdmin,
+    });
+  
+    if (error) return console.log(error);
+    console.log(data);
+
+
+>>>>>>> main
   const [form, setForm] = useState({
     seoTitle: "",
     seoDescription: "",
@@ -10,6 +29,21 @@ export default function SiteMeta() {
     subDescription: "",
   });
 
+<<<<<<< HEAD
+=======
+    useEffect(() => {
+    if (data?.SiAdminInfo) {
+      setForm({
+        seoTitle: data.SiAdminInfo[0].seoTitle || "",
+        seoDescription: data.SiAdminInfo[0].seoDescription || "",
+        keywords: data.SiAdminInfo[0].keywords || "",
+        subTitle: data.SiAdminInfo[0].subTitle || "",
+        subDescription: data.SiAdminInfo[0].subDescription || "",
+      });
+    }
+  }, [data]);
+
+>>>>>>> main
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };

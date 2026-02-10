@@ -1,0 +1,30 @@
+services:
+  aiblogbackend:
+    image: mansu217/aiblogbackend:latest
+    container_name: aiblogbackend
+    restart: always
+    environment:
+      - PORT=5000
+      - ADMINEMAIL=${ADMINEMAIL}
+      - ADMINPASSWORD=${ADMINPASSWORD}
+      - JWTKEY=${JWTKEY}
+      - MONGODBURI=${MONGODBURI}
+      - IMAGEKITPUBLICKEY=${IMAGEKITPUBLICKEY}
+      - IMAGEKITPRIVATEKEY=${IMAGEKITPRIVATEKEY}
+      - IMAGEKITURLENDPOINT=${IMAGEKITURLENDPOINT}
+      - GEMINIAPI=${GEMINIAPI}
+    networks:
+      - mansuprojects
+
+  aiblogfrontend:
+    image: mansu217/aiblogfrontend:latest
+    container_name: aiblogfrontend
+    restart: always
+    depends_on:
+      - aiblogbackend
+    networks:
+      - mansuprojects
+
+networks:
+  mansuprojects:
+    external: true

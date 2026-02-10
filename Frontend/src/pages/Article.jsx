@@ -22,7 +22,7 @@ const Article = () => {
 
   const fetchPost = async () => {
     try {
-      const { data } = await axios.get(`/api/blog/blogbyid/${blogId}`);
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/blog/blogbyid/${blogId}`);
       if (data.success) {
         setArticle(data.blog);
         console.log(data.blog);
@@ -35,7 +35,7 @@ const Article = () => {
 
   const fetchComments = async () => {
     try {
-      const { data } = await axios.get(`/api/comment/onblog/${blogId}`);
+      const { data } = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/comment/onblog/${blogId}`);
       if (data.success) {
         setComments(data.comments);
         console.log(data.comments);
@@ -49,7 +49,7 @@ const Article = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/api/comment/add", {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/comment/add`, {
         name: nameUser,
         blog: blogId,
         comment: comment,

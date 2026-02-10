@@ -44,7 +44,7 @@ const AddBlog = () => {
 
   const writeByAi = async () => {
     try {
-      const { data } = await axios.post("/api/blog/write/ai", {
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/blog/write/ai`, {
         prompt: "MongoDb vs PostgreSQL",
       });
       console.log(data.blog);
@@ -117,7 +117,7 @@ const AddBlog = () => {
       formData.append('blog', JSON.stringify(form));
       formData.append('image', form.file);
 
-      const { data } = await axios.post("/api/blog/write", formData);
+      const { data } = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/blog/write`, formData);
       if (data.success) {
         console.log("Posted.");
       } else {
